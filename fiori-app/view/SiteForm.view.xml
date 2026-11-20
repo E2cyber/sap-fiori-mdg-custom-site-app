@@ -1,0 +1,94 @@
+<mvc:View
+  controllerName="zmdg.site.fiori.controller.SiteForm"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:l="sap.ui.layout">
+  <Page id="siteFormPage" showHeader="true" enableScrolling="true" class="sap-full-page">
+    <customHeader>
+      <Toolbar class="sap-page-header-modern">
+        <Title text="{= ${site>/mode} === 'create' ? ${i18n>createSite} : ${site>/mode} === 'edit' ? ${i18n>editSite} : 'Site Details'}"
+          class="sap-page-title-modern"/>
+        <ToolbarSpacer/>
+        <Button id="saveBtn" text="{i18n>saveAsDraft}" icon="sap-icon://save" press=".onSavePress"
+          class="sapBtnPrimary sapBtnModern sapUiSmallMarginEnd"
+          visible="{= ${site>/mode} === 'create' || ${site>/mode} === 'edit'}"/>
+        <Button id="submitBtn" text="{i18n>submitForApproval}" icon="sap-icon://action" press=".onSubmitPress"
+          visible="{= ${site>/mode} === 'create' || ${site>/mode} === 'edit'}"
+          class="sapBtnAccent sapBtnModern sapUiSmallMarginEnd"/>
+        <Button id="backBtn" text="{i18n>back}" icon="sap-icon://nav-back" press=".onNavBack"
+          class="sapBtnGhost sapBtnModern"/>
+      </Toolbar>
+    </customHeader>
+    <content>
+      <!-- Object Header (display mode only) -->
+      <ObjectHeader
+        id="siteObjectHeader"
+        title="{site>/SiteId}"
+        number="{site>/Name}"
+        numberUnit="{site>/Country}"
+        intro="{site>/City}, {site>/Street}"
+        visible="{= ${site>/mode} === 'display'}"
+        class="sap-object-header-modern"/>
+
+      <VBox visible="{= ${site>/mode} === 'display'}" class="sapUiMediumMarginBeginEnd sapUiSmallMarginTopBottom">
+        <Text text="{i18n>approvedRecord}" class="sapUiSmallMarginBottom sapMMessageSuccess"/>
+        <Button text="{i18n>back}" icon="sap-icon://nav-back" press=".onNavBack" class="sapBtnGhost sapBtnModern"/>
+      </VBox>
+
+      <!-- Original Create / Edit Form (Using Pure sap.m VBox/Label/Input — Zero SimpleForm Load Errors!) -->
+      <VBox class="sap-form-wrapper" visible="{= ${site>/mode} !== 'display'}">
+        <VBox class="sap-form-modern">
+          <Title text="{i18n>siteDetails}" level="H3" class="sap-form-title-modern"/>
+
+          <VBox class="sapUiSmallMarginBottom">
+            <Label text="{i18n>siteId}" required="true" class="sapUiTinyMarginBottom"/>
+            <Input id="siteId" value="{site>/SiteId}" maxLength="10" width="100%"
+              placeholder="{i18n>enterSiteId}"
+              enabled="{= ${site>/mode} === 'create'}"
+              class="sap-input-modern"/>
+          </VBox>
+
+          <VBox class="sapUiSmallMarginBottom">
+            <Label text="{i18n>name}" required="true" class="sapUiTinyMarginBottom"/>
+            <Input id="name" value="{site>/Name}" maxLength="40" width="100%"
+              placeholder="{i18n>enterName}"
+              class="sap-input-modern"/>
+          </VBox>
+
+          <VBox class="sapUiSmallMarginBottom">
+            <Label text="{i18n>city}" required="true" class="sapUiTinyMarginBottom"/>
+            <Input id="city" value="{site>/City}" maxLength="40" width="100%"
+              placeholder="{i18n>enterCity}"
+              class="sap-input-modern"/>
+          </VBox>
+
+          <VBox class="sapUiSmallMarginBottom">
+            <Label text="{i18n>country}" required="true" class="sapUiTinyMarginBottom"/>
+            <Input id="country" value="{site>/Country}" maxLength="3" width="100%"
+              placeholder="{i18n>enterCountry}"
+              class="sap-input-modern"/>
+          </VBox>
+
+          <VBox class="sapUiSmallMarginBottom">
+            <Label text="{i18n>street}" class="sapUiTinyMarginBottom"/>
+            <Input id="street" value="{site>/Street}" maxLength="60" width="100%"
+              class="sap-input-modern"/>
+          </VBox>
+
+          <VBox class="sapUiSmallMarginBottom">
+            <Label text="{i18n>zip}" class="sapUiTinyMarginBottom"/>
+            <Input id="zip" value="{site>/Zip}" maxLength="10" width="100%"
+              class="sap-input-modern"/>
+          </VBox>
+
+          <VBox class="sapUiSmallMarginBottom">
+            <Label text="{i18n>description}" class="sapUiTinyMarginBottom"/>
+            <TextArea id="descr" value="{site>/Descr}" maxLength="50" rows="4" width="100%"
+              class="sap-textarea-modern"/>
+          </VBox>
+        </VBox>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

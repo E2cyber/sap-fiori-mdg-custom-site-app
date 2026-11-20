@@ -1,0 +1,178 @@
+<mvc:View
+  controllerName="zmdg.site.fiori.controller.SiteList"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:l="sap.ui.layout"
+  xmlns:core="sap.ui.core">
+  <Page id="siteListPage" showHeader="false" enableScrolling="true" class="sap-full-page">
+    <content>
+      <!-- Hero Section (Original Clean Design) -->
+      <VBox class="sap-hero">
+        <Title text="{i18n>heroTitle}" level="H1" class="sap-hero-title"/>
+        <Text text="{i18n>heroDescription}" class="sap-hero-desc"/>
+        <HBox class="sap-hero-actions">
+          <Button text="{i18n>createSite}" icon="sap-icon://add" press=".onCreatePress"
+            class="sapBtnPrimary sapBtnModern sapUiSmallMarginEnd"/>
+          <Button text="{i18n>searchSites}" icon="sap-icon://search" press=".onToggleSearch"
+            class="sapBtnGhost sapBtnModern"/>
+        </HBox>
+      </VBox>
+
+      <!-- Stats Cards: 3 Equal-Width Cards Side-by-Side, Matching Number Color -->
+      <HBox width="auto" justifyContent="SpaceBetween" alignItems="Stretch" class="sap-stats-row">
+        <VBox class="sap-stat-card sap-stat-card-gap" width="100%">
+          <layoutData><FlexItemData growFactor="1" baseSize="0%"/></layoutData>
+          <Text text="{i18n>totalSites}" class="sap-stat-label"/>
+          <Title text="{app>/totalSites}" level="H1" class="sap-stat-value"/>
+          <Text text="{i18n>activeRecords}" class="sap-stat-sub"/>
+        </VBox>
+
+        <VBox class="sap-stat-card sap-stat-card-gap" width="100%">
+          <layoutData><FlexItemData growFactor="1" baseSize="0%"/></layoutData>
+          <Text text="{i18n>pendingApprovals}" class="sap-stat-label"/>
+          <Title text="{app>/pendingCount}" level="H1" class="sap-stat-value"/>
+          <Text text="{i18n>awaitingApproval}" class="sap-stat-sub"/>
+        </VBox>
+
+        <VBox class="sap-stat-card" width="100%">
+          <layoutData><FlexItemData growFactor="1" baseSize="0%"/></layoutData>
+          <Text text="{i18n>drafts}" class="sap-stat-label"/>
+          <Title text="{app>/draftCount}" level="H1" class="sap-stat-value"/>
+          <Text text="{i18n>savedLocally}" class="sap-stat-sub"/>
+        </VBox>
+      </HBox>
+
+      <!-- Pending Approvals Section (Only visible when > 0, auto-clears when approved in MDG) -->
+      <Panel class="sap-draft-panel" headerText="{i18n>pendingApprovals} ({app>/pendingCount})" width="auto"
+        visible="{= ${app>/pendingCount} > 0 }">
+        <content>
+          <List id="pendingList" items="{ path: 'app>/pendingCRs' }">
+            <CustomListItem class="sap-draft-item">
+              <HBox alignItems="Center" justifyContent="SpaceBetween" width="100%">
+                <VBox>
+                  <Text text="{app>SiteId} - {app>Name}" class="sap-draft-site-id"/>
+                  <Text text="{app>Action} Change Request | {app>City}, {app>Country}" class="sap-draft-site-name"/>
+                </VBox>
+                <ObjectStatus text="Awaiting Approval" state="Warning" icon="sap-icon://pending"/>
+              </HBox>
+            </CustomListItem>
+          </List>
+        </content>
+      </Panel>
+
+      <!-- Draft Section (only visible when local drafts exist) -->
+      <Panel class="sap-draft-panel" headerText="{i18n>draftSites}" width="auto"
+        visible="{= ${app>/draftCount} > 0 }">
+        <content>
+          <List id="draftList" items="{ path: 'app>/drafts' }">
+            <CustomListItem class="sap-draft-item">
+              <HBox alignItems="Center" justifyContent="SpaceBetween" width="100%">
+                <VBox>
+                  <Text text="{app>SiteId}" class="sap-draft-site-id"/>
+                  <Text text="{app>Name}" class="sap-draft-site-name"/>
+                  <Text text="{app>UpdatedAt}" class="sap-draft-meta"/>
+                </VBox>
+                <HBox>
+                  <Button icon="sap-icon://edit" press=".onEditDraftPress" tooltip="{i18n>edit}"
+                    class="sapBtnGhost sapBtnIconModern sapUiTinyMarginEnd"/>
+                  <Button icon="sap-icon://delete" type="Reject" press=".onDeleteDraftPress" tooltip="{i18n>delete}"
+                    class="sapBtnDanger sapBtnIconModern"/>
+                </HBox>
+              </HBox>
+            </CustomListItem>
+          </List>
+        </content>
+      </Panel>
+
+      <!-- Unified Search Panel -->
+      <VBox class="sap-search-panel" visible="{= ${app>/searchExpanded} === true }">
+        <Title text="{i18n>searchSites}" level="H3" class="sapUiSmallMarginBottom"/>
+        <HBox width="100%" justifyContent="SpaceBetween" class="sapUiSmallMarginBottom">
+          <VBox width="100%" class="sapUiSmallMarginEnd">
+            <layoutData><FlexItemData growFactor="1" baseSize="0%"/></layoutData>
+            <Label text="{i18n>siteId}" class="sap-field-label"/>
+            <Input id="searchSiteId" width="100%" placeholder="{i18n>enterSiteId}" class="sap-input-modern"/>
+          </VBox>
+          <VBox width="100%" class="sapUiSmallMarginEnd">
+            <layoutData><FlexItemData growFactor="1" baseSize="0%"/></layoutData>
+            <Label text="{i18n>name}" class="sap-field-label"/>
+            <Input id="searchName" width="100%" placeholder="{i18n>enterName}" class="sap-input-modern"/>
+          </VBox>
+          <VBox width="100%" class="sapUiSmallMarginEnd">
+            <layoutData><FlexItemData growFactor="1" baseSize="0%"/></layoutData>
+            <Label text="{i18n>city}" class="sap-field-label"/>
+            <Input id="searchCity" width="100%" placeholder="{i18n>enterCity}" class="sap-input-modern"/>
+          </VBox>
+          <VBox width="100%">
+            <layoutData><FlexItemData growFactor="1" baseSize="0%"/></layoutData>
+            <Label text="{i18n>country}" class="sap-field-label"/>
+            <Input id="searchCountry" width="100%" placeholder="{i18n>enterCountry}" class="sap-input-modern"/>
+          </VBox>
+        </HBox>
+        <HBox class="sapUiTinyMarginTop">
+          <Button text="{i18n>search}" icon="sap-icon://search" press=".onSearchPress"
+            class="sapBtnPrimary sapBtnModern sapUiSmallMarginEnd"/>
+          <Button text="{i18n>clear}" icon="sap-icon://decline" press=".onClearPress"
+            class="sapBtnGhost sapBtnModern"/>
+        </HBox>
+      </VBox>
+
+      <!-- Results Table -->
+      <Table id="siteListTable" inset="false" class="sap-table-container"
+        width="auto"
+        updateFinished=".onTableUpdateFinished"
+        items="{ path: '/SiteSet', sorter: { path: 'ZsiteId' } }"
+        growing="true" growingScrollToLoad="true"
+        noDataText="{i18n>noDataFound}">
+        <headerToolbar>
+          <Toolbar class="sap-table-toolbar">
+            <Title text="{i18n>searchResults} ({app>/totalSites})" level="H3"/>
+            <ToolbarSpacer/>
+            <Button text="{i18n>searchSites}" icon="sap-icon://filter" press=".onToggleSearch"
+              visible="{= ${app>/searchExpanded} !== true }"
+              class="sapBtnGhost sapBtnModern sapUiSmallMarginEnd"/>
+            <Button text="{i18n>createSite}" icon="sap-icon://add" press=".onCreatePress"
+              class="sapBtnPrimary sapBtnModern"/>
+          </Toolbar>
+        </headerToolbar>
+        <columns>
+          <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+            <Text text="{i18n>siteId}"/>
+          </Column>
+          <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+            <Text text="{i18n>name}"/>
+          </Column>
+          <Column demandPopin="true" minScreenWidth="Tablet" popinDisplay="Inline">
+            <Text text="{i18n>city}"/>
+          </Column>
+          <Column demandPopin="true" minScreenWidth="Desktop" popinDisplay="Inline">
+            <Text text="{i18n>country}"/>
+          </Column>
+          <Column minWidth="16rem" demandPopin="false">
+            <Text text="{i18n>description}"/>
+          </Column>
+          <Column width="10rem" minScreenWidth="Tablet" demandPopin="false" hAlign="Center">
+            <Text text="{i18n>actions}"/>
+          </Column>
+        </columns>
+        <items>
+          <ColumnListItem type="Active" press=".onSitePress">
+            <cells>
+              <ObjectIdentifier title="{ZsiteId}" text="{AdStreet}{AdPstcd1}" class="sap-obj-id-modern"/>
+              <Text text="{AdName1}"/>
+              <Text text="{AdCity1}"/>
+              <Text text="{Land1}"/>
+              <Text text="{AdRemark1}"/>
+              <HBox justifyContent="Center" alignItems="Center">
+                <Button icon="sap-icon://edit" press=".onEditPress" tooltip="{i18n>edit}"
+                  class="sapBtnGhost sapBtnIconModern sapUiTinyMarginEnd"/>
+                <Button icon="sap-icon://delete" type="Reject" press=".onDeletePress"
+                  tooltip="{i18n>delete}" class="sapBtnDanger sapBtnIconModern"/>
+              </HBox>
+            </cells>
+          </ColumnListItem>
+        </items>
+      </Table>
+    </content>
+  </Page>
+</mvc:View>
