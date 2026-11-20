@@ -1,4 +1,3 @@
-```markdown
 # Phase 3: Gateway Client Testing & Fixing CSRF Token Validation in SICF
 
 ## Overview
