@@ -50,12 +50,7 @@ In this phase, we create the SAP Gateway OData project in transaction **SEGW**, 
 
 ### Step 1: Generate Objects
 1. Click the **Generate Runtime Objects** icon (red & white wheel) in the top toolbar
-2. Confirm the default generated class names in the popup:
-   - **Model Provider Base Class:** `ZCL_ZGW_SITE_SRV_MPC`
-   - **Model Provider Extension Class:** `ZCL_ZGW_SITE_SRV_MPC_EXT`
-   - **Data Provider Base Class:** `ZCL_ZGW_SITE_SRV_DPC`
-   - **Data Provider Extension Class:** `ZCL_ZGW_SITE_SRV_DPC_EXT`
-   - **Technical Service Name:** `ZGW_SITE_SRV_SRV`
+2. Confirm the default generated class names in the popup
 3. Click **Continue** and save to your package (`$TMP`)
 
 ![Generated Runtime Artifacts](images/phase1/04-runtime-artifacts.png)
