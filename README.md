@@ -119,23 +119,33 @@ sap-fiori-mdg-custom-site/
 │
 ├── LICENSE
 └── README.md
+```
 
-👤 Author
-Naveen Neelakandan
+---
+
+## 👤 Author
+
+**Naveen Neelakandan**  
 SAP MDG Consultant
 
+---
 
-📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 📄 License
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-⭐ Found This Helpful?
+---
+
+## ⭐ Found This Helpful?
+
 If this guide helped you build a custom Fiori app for SAP MDG, please:
+- ⭐ **Star this repository** (and [Part 1: SAP MDG Custom Site Reuse Mode](https://github.com/E2cyber/sap-mdg-custom-site-reuse-mode))
+- 🔄 **Share with your network**
+- 💬 **Leave feedback or questions in Issues**
 
+---
 
-⭐ Star this repository (and Part 1: SAP MDG Custom Site Reuse Mode)
-
-🔄 Share with your network
+**Happy Implementing! 🚀**
 
 💬 Leave feedback or questions in Issues
 
