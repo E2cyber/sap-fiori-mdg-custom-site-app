@@ -69,10 +69,12 @@ In this phase, we create the SAP Gateway OData project in transaction **SEGW**, 
 2. Click the **Add Service** button in the top toolbar
 3. Enter:
    - **System Alias:** `LOCAL`
-   - **Technical Service Name:** `ZGW_SITE_SRV*`
+   - **Technical Service Name:** `ZGW_SITE_SRV_SRV*`
 4. Click **Get Services**
 5. Select **`ZGW_SITE_SRV_SRV`** and click **Add Selected Services**
 6. Assign the package (`$TMP` / Local Object) and click **Continue**
+
+![Generated Runtime Artifacts](images/phase1/99-register-activate-service.png)
 
 ---
 
